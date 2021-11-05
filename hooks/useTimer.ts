@@ -41,5 +41,9 @@ export default function useTimer(initialState = 0) {
         setTimer(0)
     }
 
-    return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset }
+    const handleCancel = () => {
+        if (countRef.current) clearInterval(countRef.current)
+    }
+
+    return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleCancel }
 }

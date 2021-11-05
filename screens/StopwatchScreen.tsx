@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "../components/tailwind";
 import useTimer from "../hooks/useTimer";
 import { formatTime } from "../utils/time";
@@ -6,8 +6,9 @@ import { RootStackScreenProps } from "../types";
 import CustomButton from "../components/Button";
 import ScreenWrapper from "../components/ScreenWrapper";
 import FontInter from "../constants/FontInter";
-import { Dimensions } from "react-native";
+import { Animated, Dimensions } from "react-native";
 import Colors from "../constants/Colors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function StopwatchScreen({
   navigation,
@@ -20,7 +21,16 @@ export default function StopwatchScreen({
     handlePause,
     handleResume,
     handleReset,
+    handleCancel,
   } = useTimer();
+
+  useEffect(() => {
+    return () => {
+      //Prevents from memory leaks by stopping the 1 second interval
+      handleCancel();
+    };
+  }, []);
+  const { bottom: insetsBottom } = useSafeAreaInsets();
   return (
     <ScreenWrapper
       title="Stopwatch"
@@ -37,12 +47,17 @@ export default function StopwatchScreen({
         >
           {formatTime(timer)}
         </Text>
-        <View className="absolute bottom-0">
+        <View
+          style={{
+            position: "absolute",
+            bottom: insetsBottom,
+          }}
+        >
           {isActive && !isPaused && (
             <CustomButton
               title="Reset"
               onPress={handleReset}
-              style={{ marginBottom: 10 }}
+              style={{ marginBottom: insetsBottom / 2 }}
             />
           )}
           {!isActive && !isPaused ? (
