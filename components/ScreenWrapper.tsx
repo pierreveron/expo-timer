@@ -20,7 +20,6 @@ export default function ScreenWrapper({
   const fadeOutDuration = 80;
 
   const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 0.3 seconds
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: fadeInDuration,
@@ -29,7 +28,6 @@ export default function ScreenWrapper({
   };
 
   const fadeOut = () => {
-    // Will change fadeAnim value to 0 in 0.1 seconds
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: fadeOutDuration,
