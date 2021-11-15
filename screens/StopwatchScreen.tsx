@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { Text, View } from "../components/tailwind";
-import useTimer from "../hooks/useTimer";
 import { formatTime } from "../utils/time";
 import { RootStackScreenProps } from "../types";
 import CustomButton from "../components/Button";
 import ScreenWrapper from "../components/ScreenWrapper";
 import FontInter from "../constants/FontInter";
-import { Animated, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import Colors from "../constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import useStopwatch from "../hooks/useStopwatch";
 
 export default function StopwatchScreen({
   navigation,
@@ -22,7 +22,7 @@ export default function StopwatchScreen({
     handleResume,
     handleReset,
     handleCancel,
-  } = useTimer();
+  } = useStopwatch();
 
   useEffect(() => {
     return () => {
@@ -30,6 +30,7 @@ export default function StopwatchScreen({
       handleCancel();
     };
   }, []);
+
   const { bottom: insetsBottom } = useSafeAreaInsets();
   return (
     <ScreenWrapper

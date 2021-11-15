@@ -6,8 +6,8 @@
 
 import { useState, useRef } from 'react';
 
-export default function useTimer(initialState: number) {
-    const [timer, setTimer] = useState(initialState)
+export default function useStopwatch() {
+    const [timer, setTimer] = useState(0)
     const [isActive, setIsActive] = useState(false)
     const [isPaused, setIsPaused] = useState(false)
     /* To understand why useRef is written like this click the link below: 
@@ -18,7 +18,7 @@ export default function useTimer(initialState: number) {
         setIsActive(true)
         setIsPaused(true)
         countRef.current = setInterval(() => {
-            setTimer((timer) => timer - 1)
+            setTimer((timer) => timer + 1)
         }, 1000)
     }
 
@@ -38,15 +38,11 @@ export default function useTimer(initialState: number) {
         if (countRef.current) clearInterval(countRef.current)
         setIsActive(false)
         setIsPaused(false)
-        setTimer(initialState)
+        setTimer(0)
     }
 
     const handleCancel = () => {
         if (countRef.current) clearInterval(countRef.current)
-    }
-
-    const handleFinish = () => {
-
     }
 
     return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleCancel }
