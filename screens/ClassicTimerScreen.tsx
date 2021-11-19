@@ -1,56 +1,18 @@
-import React, { useRef, useState } from "react";
-import { Dimensions, Keyboard, StyleSheet, TextInput } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Header from "../components/Header";
+import React, { useEffect } from "react";
+import { Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BouncingText from "../components/BoucingText";
+import CustomButton from "../components/Button";
 import ScreenWrapper from "../components/ScreenWrapper";
 import { View, Text } from "../components/tailwind";
+import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
-import FontInter from "../constants/FontInter";
 import useTimer from "../hooks/useTimer";
 import { RootStackScreenProps } from "../types";
-import {
-  formatTime,
-  formatTimeNumber,
-  formatTimeString,
-  reformatTimeNumber,
-} from "../utils/time";
 
 export default function ClassicTimerScreen({
   navigation,
 }: RootStackScreenProps<"ClassicTimer">) {
-  const [number, setNumber] = useState<number>(60);
-
-  const textInput = useRef<TextInput>(null);
-
-  const onChangeText = (text: string) => {
-    setNumber(Number(text));
-    if (text.length == 4) {
-      Keyboard.dismiss();
-      setNumber(reformatTimeNumber(Number(text)));
-    }
-  };
-
-  const onTextClick = () => {
-    if (textInput.current) {
-      if (textInput.current.isFocused()) {
-        Keyboard.dismiss();
-        setNumber(reformatTimeNumber(number));
-      } else {
-        setNumber(0);
-        textInput.current.focus();
-      }
-    }
-  };
-
-  const onScreenClick = () => {
-    if (textInput.current) {
-      if (textInput.current.isFocused()) {
-        Keyboard.dismiss();
-        setNumber(reformatTimeNumber(number));
-      }
-    }
-  };
-
   const {
     timer,
     isActive,
@@ -60,43 +22,89 @@ export default function ClassicTimerScreen({
     handleResume,
     handleReset,
     handleCancel,
-  } = useTimer(number);
+    upTimer,
+    downTimer,
+  } = useTimer(1800);
 
+  var throttle: NodeJS.Timer | null = null;
+  const throttleDuration = 80;
+
+  const handleScroll = (e: WheelEvent) => {
+    if (!throttle) {
+      const sign = Math.sign(e.deltaY);
+      // console.log(e.deltaY);
+      const eps =
+        Math.abs(Math.floor(e.deltaY)) < 10 ? sign : Math.floor(e.deltaY);
+      if (sign == 1) upTimer(eps);
+      if (sign == -1) downTimer(eps);
+      // console.log("wheeling");
+      /* Add: Start a "throttle" timer that prevents next wheel processing
+      until timer completed */
+      throttle = setTimeout(() => {
+        throttle = null;
+      }, throttleDuration);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      console.log("Timer dismounted");
+      //Prevents from memory leaks by stopping the 1 second interval
+      handleCancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isActive && !isPaused) {
+      window.addEventListener("wheel", handleScroll);
+      return () => {
+        window.removeEventListener("wheel", handleScroll);
+      };
+    }
+  }, [isActive, isPaused]);
+
+  useEffect(() => {
+    if (timer == 0 && isActive) handleReset();
+  }, [timer]);
+
+  const { bottom: insetsBottom } = useSafeAreaInsets();
   return (
     <ScreenWrapper
       title="Classic Timer"
       onPress={() => navigation.navigate("Home")}
       backgroundColor={Colors.classicTimer}
     >
-      <TouchableWithoutFeedback
-        onPress={onScreenClick}
-        // accessible={false}
-        // style={{ flex: 1 }}
-      >
-        <View className="h-full items-center justify-center">
-          <TouchableWithoutFeedback onPress={onTextClick}>
-            <Text
-              className="text-white"
-              style={{
-                fontFamily: FontInter.semiBold,
-                fontSize: Dimensions.get("screen").width * 0.2,
-                // width: Dimensions.get("screen").width * 0.3,
-                // height: 200,
-                textAlign: "center",
-              }}
-            >
-              {formatTime(number, false)}
-            </Text>
-          </TouchableWithoutFeedback>
-          <TextInput
-            ref={textInput}
-            style={{ display: "none" }}
-            onChangeText={onChangeText}
-            value={number.toString()}
-            keyboardType="numeric"
-          />
+      <View className="h-full items-center justify-center">
+        <TimeText>{timer}</TimeText>
+        <View
+          style={{
+            position: "absolute",
+            bottom: insetsBottom,
+          }}
+        >
+          {isActive && !isPaused && (
+            <CustomButton
+              title="Reset"
+              onPress={handleReset}
+              style={{ marginBottom: insetsBottom / 2 }}
+            />
+          )}
+          {!isActive && !isPaused ? (
+            <>
+              <BouncingText>Scroll up to add time, down to reduce</BouncingText>
+              <CustomButton
+                title="Start"
+                onPress={handleStart}
+                style={{ marginTop: Dimensions.get("screen").height / 8 }}
+              />
+            </>
+          ) : isPaused ? (
+            <CustomButton title="Stop" onPress={handlePause} />
+          ) : (
+            <CustomButton title="Resume" onPress={handleResume} />
+          )}
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     </ScreenWrapper>
   );
 }

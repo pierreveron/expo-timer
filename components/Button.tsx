@@ -14,7 +14,7 @@ export default function CustomButton({
 }) {
   return (
     <TouchableOpacity
-      className="bg-white rounded-xl items-center py-2"
+      className="bg-white rounded-xl items-center py-2 max-w-lg"
       style={[{ width: Dimensions.get("screen").width * 0.8 }, style]}
       onPress={onPress}
     >

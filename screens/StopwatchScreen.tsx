@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
-import { Text, View } from "../components/tailwind";
-import { formatTime } from "../utils/time";
+import { View } from "../components/tailwind";
 import { RootStackScreenProps } from "../types";
 import CustomButton from "../components/Button";
 import ScreenWrapper from "../components/ScreenWrapper";
-import FontInter from "../constants/FontInter";
-import { Dimensions } from "react-native";
 import Colors from "../constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useStopwatch from "../hooks/useStopwatch";
+import TimeText from "../components/TimeText";
 
 export default function StopwatchScreen({
   navigation,
@@ -26,7 +24,7 @@ export default function StopwatchScreen({
 
   useEffect(() => {
     return () => {
-      //Prevents from memory leaks by stopping the 1 second interval
+      console.log("Stopwatch dismounted");
       handleCancel();
     };
   }, []);
@@ -39,15 +37,7 @@ export default function StopwatchScreen({
       backgroundColor={Colors.stopwatch}
     >
       <View className="flex-1 items-center justify-center">
-        <Text
-          className="text-white"
-          style={{
-            fontFamily: FontInter.semiBold,
-            fontSize: Dimensions.get("screen").width * 0.2,
-          }}
-        >
-          {formatTime(timer)}
-        </Text>
+        <TimeText>{timer}</TimeText>
         <View
           style={{
             position: "absolute",
