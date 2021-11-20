@@ -3,6 +3,7 @@ import Header from "./Header";
 import { Animated, ColorValue } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SharedBackground from "./SharedBackgound";
+import useFade from "../hooks/useFade";
 
 export default function ScreenWrapper({
   title,
@@ -15,25 +16,13 @@ export default function ScreenWrapper({
   backgroundColor: ColorValue;
   children?: React.ReactNode;
 }) {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeInDuration = 400;
   const fadeOutDuration = 80;
-
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: fadeInDuration,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const fadeOut = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: fadeOutDuration,
-      useNativeDriver: false,
-    }).start();
-  };
+  const { fadeAnim, fadeIn, fadeOut } = useFade(
+    0,
+    fadeInDuration,
+    fadeOutDuration
+  );
 
   useEffect(() => {
     setTimeout(() => {
