@@ -12,7 +12,7 @@ import ScreenWrapper from "../components/ScreenWrapper";
 import { View } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
-import useTimer from "../hooks/useTimer";
+import useClassicTimer from "../hooks/useClassicTimer";
 import { RootStackScreenProps } from "../types";
 
 export default function ClassicTimerScreen({
@@ -26,10 +26,9 @@ export default function ClassicTimerScreen({
     handlePause,
     handleResume,
     handleReset,
-    handleCancel,
     upTimer,
     downTimer,
-  } = useTimer(1800);
+  } = useClassicTimer(1800);
 
   const isActiveRef = useRef(isActive);
   const intervalRef = useRef<NodeJS.Timer | null>(null);
@@ -45,9 +44,12 @@ export default function ClassicTimerScreen({
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      handleCancel();
     };
   }, []);
+
+  useEffect(() => {
+    if (timer == 0 && isActive) handleReset();
+  }, [timer]);
 
   const onPanResponderStart = (
     event: GestureResponderEvent,

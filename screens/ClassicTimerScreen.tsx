@@ -7,7 +7,7 @@ import ScreenWrapper from "../components/ScreenWrapper";
 import { View, Text } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
-import useTimer from "../hooks/useTimer";
+import useTimer from "../hooks/useClassicTimer";
 import { RootStackScreenProps } from "../types";
 
 export default function ClassicTimerScreen({
@@ -21,7 +21,6 @@ export default function ClassicTimerScreen({
     handlePause,
     handleResume,
     handleReset,
-    handleCancel,
     upTimer,
     downTimer,
   } = useTimer(1800);
@@ -47,14 +46,6 @@ export default function ClassicTimerScreen({
   };
 
   useEffect(() => {
-    return () => {
-      console.log("Timer dismounted");
-      //Prevents from memory leaks by stopping the 1 second interval
-      handleCancel();
-    };
-  }, []);
-
-  useEffect(() => {
     if (!isActive && !isPaused) {
       window.addEventListener("wheel", handleScroll);
       return () => {
@@ -62,10 +53,6 @@ export default function ClassicTimerScreen({
       };
     }
   }, [isActive, isPaused]);
-
-  useEffect(() => {
-    if (timer == 0 && isActive) handleReset();
-  }, [timer]);
 
   const { bottom: insetsBottom } = useSafeAreaInsets();
   return (

@@ -4,14 +4,14 @@
  * I only ported the code to Typescript
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function useTimer(initialState: number) {
     const [timer, setTimer] = useState(initialState)
     const [isActive, setIsActive] = useState(false)
     const [isPaused, setIsPaused] = useState(false)
     /* To understand why useRef is written like this click the link below: 
-    https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065#issuecomment-453841404 */
+   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065#issuecomment-453841404 */
     const countRef = useRef<NodeJS.Timer | null>(null)
     const timerInterval = () => setInterval(() => {
         setTimer((timer) => timer - 1 > 0 ? timer - 1 : 0)
@@ -24,7 +24,7 @@ export default function useTimer(initialState: number) {
     }
 
     const handlePause = () => {
-        if (countRef.current) clearInterval(countRef.current)
+        handleClear()
         setIsPaused(false)
     }
 
@@ -34,58 +34,23 @@ export default function useTimer(initialState: number) {
     }
 
     const handleReset = () => {
-        if (countRef.current) clearInterval(countRef.current)
+        handleClear()
         setIsActive(false)
         setIsPaused(false)
         setTimer(initialState)
     }
 
-    const handleCancel = () => {
+    const handleClear = () => {
         if (countRef.current) clearInterval(countRef.current)
     }
 
-    // const handleFinish = () => {
-    //     if (countRef.current) clearInterval(countRef.current)
-    //     setIsActive(false)
-    //     setIsPaused(false)
-    // }
+    useEffect(() => {
+        return () => {
+            console.log("Timer dismounted");
+            //Prevents from memory leaks by stopping the 1 second interval
+            handleClear();
+        };
+    }, []);
 
-    const handleUpdate = () => {
-
-    }
-
-    const upTimer = (eps = 1) => {
-        setTimer(t => {
-            if (eps < 60) {
-                const seconds = t % 60;
-                if (seconds == 59) return t
-                return t + eps;
-            }
-
-            if (t < 3599) {
-                if (t + eps < 3599)
-                    return t + eps;
-                return 3540 + t % 60
-            }
-            else return t
-        })
-    }
-
-    const downTimer = (eps = 1) => {
-        setTimer(t => {
-            if (eps < 60) {
-                const seconds = t % 60;
-                if (seconds == 0) return t
-                return t - eps;
-            }
-            if (t > 0) {
-                if (t - eps > 0)
-                    return t - eps;
-                return t % 60;
-            }
-            else return t
-        })
-    }
-
-    return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleCancel, upTimer, downTimer }
+    return { timer, setTimer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleClear }
 }
