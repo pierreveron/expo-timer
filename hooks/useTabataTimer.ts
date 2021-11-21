@@ -23,13 +23,13 @@ export default function useTabataTimer() {
     }
 
     useEffect(() => {
-        if (isActive) {
+        if (isActive && timer != 0) {
             if ((totalTime - timer) == workTime * round + restTime * (round - 1)) {
                 setIsRest(true);
                 console.log("rest is true")
             }
 
-            if (timer % roundTime == 0 && timer != 0)
+            if (timer % roundTime == 0)
                 handleNewRound();
         }
     }, [timer]);

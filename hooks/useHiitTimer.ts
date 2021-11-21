@@ -7,8 +7,8 @@ export default function useHiitTimer() {
     const [restTime, setRestTime] = useState(30)
     const [totalTime, setTotalTime] = useState((workTime + restTime) * numberRounds)
     const [roundTime, setRoundTime] = useState(restTime + workTime)
-    const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset: superReset, handleClear, setTimer } = useTimer(totalTime)
-    const [isFinished, setIsFinished] = useState(false)
+    const { timer, isActive, isPaused, isFinished,
+        handleStart, handlePause, handleResume, handleReset: superReset, setTimer } = useTimer(totalTime)
     const [round, setRound] = useState(1)
     const [isRest, setIsRest] = useState(false)
 
@@ -16,7 +16,6 @@ export default function useHiitTimer() {
         superReset();
         setRound(1)
         setIsRest(false);
-        setIsFinished(false);
     }
 
     const handleNewRound = () => {
@@ -24,22 +23,13 @@ export default function useHiitTimer() {
         setRound(round => round + 1)
     }
 
-    const handleFinish = () => {
-        handleClear();
-        setIsFinished(true);
-    }
-
     useEffect(() => {
-        if (isActive) {
-            if ((totalTime - timer) == workTime * round + restTime * (round - 1)) {
+        if (isActive && timer != 0) {
+            if ((totalTime - timer) == workTime * round + restTime * (round - 1) && restTime != 0)
                 setIsRest(true);
-                console.log("rest is true")
-            }
 
-            if (timer % roundTime == 0) {
-                if (timer == 0) handleFinish();
-                else handleNewRound();
-            }
+            if (timer % roundTime == 0)
+                handleNewRound();
         }
     }, [timer]);
 
@@ -51,11 +41,9 @@ export default function useHiitTimer() {
 
     return {
         totalTime, workTime, roundTime, restTime,
-        timer, round,
+        timer, round, numberRounds,
         isActive, isPaused, isRest, isFinished,
-        numberRounds,
         handleStart, handlePause, handleResume, handleReset,
-        setNumberRounds,
-        setRestTime, setWorkTime
+        setNumberRounds, setRestTime, setWorkTime
     }
 }
