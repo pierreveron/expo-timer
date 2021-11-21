@@ -278,7 +278,7 @@ export default function HiitTimerScreen({
           visible={!isActive && !isPaused}
           fadeDuration={FadeDuration}
         >
-          Swipe up to add time, down to reduce
+          Tap the screen to change the settings
         </BouncingText>
         <BottomButtons
           isActive={isActive}
