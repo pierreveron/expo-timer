@@ -4,7 +4,7 @@
  * I only ported the code to Typescript
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function useStopwatch() {
     const [timer, setTimer] = useState(0)
@@ -16,7 +16,6 @@ export default function useStopwatch() {
 
     const handleStart = () => {
         setIsActive(true)
-        setIsPaused(true)
         countRef.current = setInterval(() => {
             setTimer((timer) => timer + 1)
         }, 1000)
@@ -24,11 +23,11 @@ export default function useStopwatch() {
 
     const handlePause = () => {
         if (countRef.current) clearInterval(countRef.current)
-        setIsPaused(false)
+        setIsPaused(true)
     }
 
     const handleResume = () => {
-        setIsPaused(true)
+        setIsPaused(false)
         countRef.current = setInterval(() => {
             setTimer((timer) => timer + 1)
         }, 1000)
@@ -41,9 +40,17 @@ export default function useStopwatch() {
         setTimer(0)
     }
 
-    const handleCancel = () => {
+    const handleClear = () => {
         if (countRef.current) clearInterval(countRef.current)
     }
 
-    return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleCancel }
+
+    useEffect(() => {
+        return () => {
+            console.log("Stopwatch dismounted");
+            handleClear();
+        };
+    }, []);
+
+    return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleClear }
 }
