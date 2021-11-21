@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text } from "./tailwind";
+import { View } from "./tailwind";
 import { Ionicons } from "@expo/vector-icons";
-import FontInter from "../constants/FontInter";
-import { SharedElement } from "react-navigation-shared-element";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Animated } from "react-native";
+import SharedTitle from "./SharedTitle";
 
 export default function Header({
   title,
@@ -38,16 +37,7 @@ export default function Header({
           onPress={onPress}
         />
       </Animated.View>
-      <SharedElement id={title}>
-        <Text
-          className="text-white text-center text-2xl"
-          style={{
-            fontFamily: FontInter.semiBold,
-          }}
-        >
-          {title}
-        </Text>
-      </SharedElement>
+      <SharedTitle title={title} />
     </View>
   );
 }
