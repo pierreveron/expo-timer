@@ -1,7 +1,7 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import FadeDuration from "../constants/FadeDuration";
 import FontInter from "../constants/FontInter";
+import Layout from "../constants/Layout";
 import FadedView from "./FadedView";
 import { View, Text } from "./tailwind";
 
@@ -20,7 +20,7 @@ export default function TimerWithRoundsUpperPart({
         visible={!isRest}
         style={{
           position: "absolute",
-          bottom: Dimensions.get("screen").width * 0.1,
+          bottom: Layout.window.width * 0.1,
         }}
         fadeDuration={FadeDuration / 2}
       >
@@ -28,7 +28,7 @@ export default function TimerWithRoundsUpperPart({
           className="text-white"
           style={{
             fontFamily: FontInter.semiBold,
-            fontSize: Dimensions.get("screen").width * 0.1,
+            fontSize: Layout.window.width * 0.1,
           }}
         >
           WORK
@@ -38,7 +38,7 @@ export default function TimerWithRoundsUpperPart({
         visible={isRest}
         style={{
           position: "absolute",
-          bottom: Dimensions.get("screen").width * 0.1,
+          bottom: Layout.window.width * 0.1,
         }}
         fadeDuration={FadeDuration / 2}
       >
@@ -46,7 +46,7 @@ export default function TimerWithRoundsUpperPart({
           className="text-white"
           style={{
             fontFamily: FontInter.semiBold,
-            fontSize: Dimensions.get("screen").width * 0.1,
+            fontSize: Layout.window.width * 0.1,
           }}
         >
           REST

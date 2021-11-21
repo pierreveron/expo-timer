@@ -1,6 +1,6 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import FontInter from "../constants/FontInter";
+import Layout from "../constants/Layout";
 import FadedView from "./FadedView";
 import { Text } from "./tailwind";
 
@@ -24,7 +24,7 @@ export default function FinishedText({
         className="text-white"
         style={{
           fontFamily: FontInter.semiBold,
-          fontSize: Dimensions.get("screen").width * 0.1,
+          fontSize: Layout.window.width * 0.1,
         }}
       >
         FINISHED

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Dimensions } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -9,6 +8,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import FontInter from "../constants/FontInter";
+import Layout from "../constants/Layout";
 import FadedView from "./FadedView";
 import { Text } from "./tailwind";
 
@@ -51,7 +51,7 @@ export default function BouncingText({
       fadeDuration={fadeDuration}
       style={{
         position: "absolute",
-        bottom: Dimensions.get("screen").height / 8,
+        bottom: Layout.window.height / 8,
       }}
     >
       <Animated.View style={[style]}>

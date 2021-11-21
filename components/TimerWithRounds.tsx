@@ -1,9 +1,6 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import FadeDuration from "../constants/FadeDuration";
-import FontInter from "../constants/FontInter";
 import FadedView from "./FadedView";
-import { View, Text } from "./tailwind";
 import TimerWithRoundsLowerPart from "./TimerWithRoundsLowerPart";
 import TimerWithRoundsUpperPart from "./TimerWithRoundsUpperPart";
 import TimeText from "./TimeText";

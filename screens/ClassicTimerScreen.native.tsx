@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import {
-  Dimensions,
   GestureResponderEvent,
   PanResponder,
   PanResponderGestureState,
@@ -14,6 +13,7 @@ import { View } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
 import FadeDuration from "../constants/FadeDuration";
+import Layout from "../constants/Layout";
 import useClassicTimer from "../hooks/useClassicTimer";
 import { RootStackScreenProps } from "../types";
 
@@ -37,7 +37,7 @@ export default function ClassicTimerScreen({
   const intervalRef = useRef<NodeJS.Timer | null>(null);
   const timeoutRef = useRef<NodeJS.Timer | null>(null);
   const oldDy = useRef(0);
-  const halfScreenWidth = Dimensions.get("screen").width / 2;
+  const halfScreenWidth = Layout.window.width / 2;
 
   useEffect(() => {
     isActiveRef.current = isActive;

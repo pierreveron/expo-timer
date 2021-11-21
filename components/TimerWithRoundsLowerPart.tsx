@@ -1,5 +1,4 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import FadeDuration from "../constants/FadeDuration";
 import FontInter from "../constants/FontInter";
 import FadedView from "./FadedView";
@@ -20,7 +19,7 @@ export default function TimerWithRoundsLowerPart({
           className="text-white text-xl"
           style={{
             fontFamily: FontInter.semiBold,
-            // fontSize: Dimensions.get("screen").width * 0.1,
+            // fontSize: Layout.window.width * 0.1,
           }}
         >
           Time remaining
@@ -32,7 +31,7 @@ export default function TimerWithRoundsLowerPart({
           className="text-white text-xl"
           style={{
             fontFamily: FontInter.semiBold,
-            // fontSize: Dimensions.get("screen").width * 0.1,
+            // fontSize: Layout.window.width * 0.1,
           }}
         >
           Time
