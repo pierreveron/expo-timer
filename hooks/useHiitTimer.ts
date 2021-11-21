@@ -2,11 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import useTimer from './useTimer';
 
 export default function useHiitTimer() {
-    const totalTime = 30;
-    const restTime = 10;
-    const workTime = 20;
-    const roundTime = restTime + workTime;
-    const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset: superReset, handleClear } = useTimer(totalTime)
+    const [numberRounds, setNumberRounds] = useState(30)
+    const [workTime, setWorkTime] = useState(30)
+    const [restTime, setRestTime] = useState(30)
+    const [totalTime, setTotalTime] = useState((workTime + restTime) * numberRounds)
+    const [roundTime, setRoundTime] = useState(restTime + workTime)
+    const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset: superReset, handleClear, setTimer } = useTimer(totalTime)
     const [isFinished, setIsFinished] = useState(false)
     const [round, setRound] = useState(1)
     const [isRest, setIsRest] = useState(false)
@@ -42,10 +43,19 @@ export default function useHiitTimer() {
         }
     }, [timer]);
 
+    useEffect(() => {
+        setTotalTime((workTime + restTime) * numberRounds);
+        setTimer((workTime + restTime) * numberRounds)
+        setRoundTime(workTime + restTime)
+    }, [workTime, restTime, numberRounds]);
+
     return {
         totalTime, workTime, roundTime, restTime,
         timer, round,
         isActive, isPaused, isRest, isFinished,
-        handleStart, handlePause, handleResume, handleReset
+        numberRounds,
+        handleStart, handlePause, handleResume, handleReset,
+        setNumberRounds,
+        setRestTime, setWorkTime
     }
 }

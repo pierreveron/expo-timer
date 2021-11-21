@@ -1,17 +1,10 @@
-/**
- * Credit for this hook goes to:
- * https://dev.to/abdulbasit313/how-to-develop-a-stopwatch-in-react-js-with-custom-hook-561b
- * I only ported the code to Typescript
- */
-
 import { useState, useRef, useEffect } from 'react';
 
 export default function useTimer(initialState: number) {
     const [timer, setTimer] = useState(initialState)
     const [isActive, setIsActive] = useState(false)
     const [isPaused, setIsPaused] = useState(false)
-    /* To understand why useRef is written like this click the link below: 
-   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065#issuecomment-453841404 */
+    const [isFinished, setIsFinished] = useState(false)
     const countRef = useRef<NodeJS.Timer | null>(null)
     const timerInterval = () => setInterval(() => {
         setTimer((timer) => timer - 1 > 0 ? timer - 1 : 0)
@@ -19,17 +12,16 @@ export default function useTimer(initialState: number) {
 
     const handleStart = () => {
         setIsActive(true)
-        setIsPaused(true)
         countRef.current = timerInterval()
     }
 
     const handlePause = () => {
         handleClear()
-        setIsPaused(false)
+        setIsPaused(true)
     }
 
     const handleResume = () => {
-        setIsPaused(true)
+        setIsPaused(false)
         countRef.current = timerInterval()
     }
 
@@ -37,12 +29,23 @@ export default function useTimer(initialState: number) {
         handleClear()
         setIsActive(false)
         setIsPaused(false)
+        setIsFinished(false);
         setTimer(initialState)
+    }
+
+    const handleFinish = () => {
+        handleClear();
+        setIsFinished(true);
     }
 
     const handleClear = () => {
         if (countRef.current) clearInterval(countRef.current)
     }
+
+    useEffect(() => {
+        if (isActive && timer == 0)
+            handleFinish();
+    }, [timer]);
 
     useEffect(() => {
         return () => {
@@ -52,5 +55,9 @@ export default function useTimer(initialState: number) {
         };
     }, []);
 
-    return { timer, setTimer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, handleClear }
+    return {
+        timer, setTimer,
+        isActive, isPaused, isFinished,
+        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
+    }
 }

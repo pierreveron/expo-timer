@@ -2,17 +2,11 @@ import { useEffect } from 'react';
 import useTimer from './useTimer';
 
 export default function useClassicTimer(initialState: number) {
-    const { timer, setTimer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset: superReset, handleClear } = useTimer(initialState)
-
-    const handleReset = () => {
-        superReset()
-    }
-
-    // const handleFinish = () => {
-    //     if (countRef.current) clearInterval(countRef.current)
-    //     setIsActive(false)
-    //     setIsPaused(false)
-    // }
+    const {
+        timer, setTimer,
+        isActive, isPaused, isFinished,
+        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
+    } = useTimer(initialState)
 
     const upTimer = (eps = 1) => {
         setTimer(t => {
@@ -47,9 +41,10 @@ export default function useClassicTimer(initialState: number) {
         })
     }
 
-    useEffect(() => {
-        if (timer == 0 && isActive) handleReset();
-    }, [timer]);
-
-    return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset, upTimer, downTimer }
+    return {
+        timer,
+        isActive, isPaused, isFinished,
+        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish,
+        upTimer, downTimer,
+    }
 }

@@ -6,8 +6,7 @@ export default function useTabataTimer() {
     const restTime = 10;
     const workTime = 20;
     const roundTime = restTime + workTime;
-    const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset: superReset, handleClear } = useTimer(totalTime)
-    const [isFinished, setIsFinished] = useState(false)
+    const { timer, isActive, isPaused, isFinished, handleStart, handlePause, handleResume, handleReset: superReset, handleClear, handleFinish } = useTimer(totalTime)
     const [round, setRound] = useState(1)
     const [isRest, setIsRest] = useState(false)
 
@@ -15,17 +14,12 @@ export default function useTabataTimer() {
         superReset();
         setRound(1)
         setIsRest(false);
-        setIsFinished(false);
+
     }
 
     const handleNewRound = () => {
         setIsRest(false)
         setRound(round => round + 1)
-    }
-
-    const handleFinish = () => {
-        handleClear();
-        setIsFinished(true);
     }
 
     useEffect(() => {
@@ -35,10 +29,8 @@ export default function useTabataTimer() {
                 console.log("rest is true")
             }
 
-            if (timer % roundTime == 0) {
-                if (timer == 0) handleFinish();
-                else handleNewRound();
-            }
+            if (timer % roundTime == 0 && timer != 0)
+                handleNewRound();
         }
     }, [timer]);
 
@@ -46,6 +38,6 @@ export default function useTabataTimer() {
         totalTime, workTime, roundTime, restTime,
         timer, round,
         isActive, isPaused, isRest, isFinished,
-        handleStart, handlePause, handleResume, handleReset
+        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
     }
 }
