@@ -5,13 +5,15 @@ import {
   PanResponder,
   PanResponderGestureState,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BottomButtons from "../components/BottomButtons";
 import BouncingText from "../components/BoucingText";
-import CustomButton from "../components/Button";
+import FadedView from "../components/FadedView";
+import FinishedText from "../components/FinishedText";
 import ScreenWrapper from "../components/ScreenWrapper";
 import { View } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
+import FadeDuration from "../constants/FadeDuration";
 import useClassicTimer from "../hooks/useClassicTimer";
 import { RootStackScreenProps } from "../types";
 
@@ -22,6 +24,7 @@ export default function ClassicTimerScreen({
     timer,
     isActive,
     isPaused,
+    isFinished,
     handleStart,
     handlePause,
     handleResume,
@@ -46,10 +49,6 @@ export default function ClassicTimerScreen({
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
-
-  useEffect(() => {
-    if (timer == 0 && isActive) handleReset();
-  }, [timer]);
 
   const onPanResponderStart = (
     event: GestureResponderEvent,
@@ -129,7 +128,6 @@ export default function ClassicTimerScreen({
     })
   ).current;
 
-  const { bottom: insetsBottom } = useSafeAreaInsets();
   return (
     <ScreenWrapper
       title="Classic Timer"
@@ -140,35 +138,25 @@ export default function ClassicTimerScreen({
         className="h-full items-center justify-center"
         {...panResponder.panHandlers}
       >
-        <TimeText>{timer}</TimeText>
-        <View
-          style={{
-            position: "absolute",
-            bottom: insetsBottom,
-          }}
+        <FinishedText visible={isFinished} fadeDuration={FadeDuration} />
+        <FadedView visible={!isFinished} fadeDuration={FadeDuration}>
+          <TimeText>{timer}</TimeText>
+        </FadedView>
+        <BouncingText
+          visible={!isActive && !isPaused}
+          fadeDuration={FadeDuration}
         >
-          {isActive && !isPaused && (
-            <CustomButton
-              title="Reset"
-              onPress={handleReset}
-              style={{ marginBottom: insetsBottom / 2 }}
-            />
-          )}
-          {!isActive && !isPaused ? (
-            <View className="items-center">
-              <BouncingText>Swipe up to add time, down to reduce</BouncingText>
-              <CustomButton
-                title="Start"
-                onPress={handleStart}
-                style={{ marginTop: Dimensions.get("screen").height / 8 }}
-              />
-            </View>
-          ) : isPaused ? (
-            <CustomButton title="Stop" onPress={handlePause} />
-          ) : (
-            <CustomButton title="Resume" onPress={handleResume} />
-          )}
-        </View>
+          Swipe up to add time, down to reduce
+        </BouncingText>
+        <BottomButtons
+          isActive={isActive}
+          isPaused={isPaused}
+          isFinished={isFinished}
+          handleReset={handleReset}
+          handleStart={handleStart}
+          handlePause={handlePause}
+          handleResume={handleResume}
+        />
       </View>
     </ScreenWrapper>
   );

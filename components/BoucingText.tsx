@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Dimensions } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -8,9 +9,18 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import FontInter from "../constants/FontInter";
+import FadedView from "./FadedView";
 import { Text } from "./tailwind";
 
-export default function BouncingText({ children: text }: { children: string }) {
+export default function BouncingText({
+  children: text,
+  visible,
+  fadeDuration,
+}: {
+  children: string;
+  visible: boolean;
+  fadeDuration: number;
+}) {
   const duration = 1000;
 
   const offset = useSharedValue(-8);
@@ -36,16 +46,25 @@ export default function BouncingText({ children: text }: { children: string }) {
     };
   }, []);
   return (
-    <Animated.View style={[style]}>
-      <Text
-        className="text-white text-2xl"
-        style={{
-          fontFamily: FontInter.semiBold,
-          textAlign: "center",
-        }}
-      >
-        {text}
-      </Text>
-    </Animated.View>
+    <FadedView
+      visible={visible}
+      fadeDuration={fadeDuration}
+      style={{
+        position: "absolute",
+        bottom: Dimensions.get("screen").height / 8,
+      }}
+    >
+      <Animated.View style={[style]}>
+        <Text
+          className="text-white text-2xl"
+          style={{
+            fontFamily: FontInter.semiBold,
+            textAlign: "center",
+          }}
+        >
+          {text}
+        </Text>
+      </Animated.View>
+    </FadedView>
   );
 }

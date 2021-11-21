@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import ScreenWrapper from "../components/ScreenWrapper";
 import Colors from "../constants/Colors";
 import { RootStackScreenProps } from "../types";
-import { Animated, Dimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import CustomButton from "../components/Button";
+import { Dimensions } from "react-native";
 import { Text, View } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import useTabataTimer from "../hooks/useTabataTimer";
 import FontInter from "../constants/FontInter";
 import { formatTime } from "../utils/time";
-import useUpdateEffect from "../hooks/useUpdateEffect";
-import useFade from "../hooks/useFade";
+import FadedView from "../components/FadedView";
+import BottomButtons from "../components/BottomButtons";
+import FinishedText from "../components/FinishedText";
+import FadeDuration from "../constants/FadeDuration";
 
 export default function TabataTimerScreen({
   navigation,
@@ -33,17 +33,6 @@ export default function TabataTimerScreen({
     handleReset,
   } = useTabataTimer();
 
-  const { fadeAnim, fadeIn, fadeOut } = useFade(1, 600);
-
-  useUpdateEffect(() => {
-    if (isFinished) {
-      fadeOut();
-    } else {
-      fadeIn();
-    }
-  }, [isFinished]);
-
-  const { bottom: insetsBottom } = useSafeAreaInsets();
   return (
     <ScreenWrapper
       title="Tabata Timer"
@@ -51,25 +40,11 @@ export default function TabataTimerScreen({
       backgroundColor={Colors.tabataTimer}
     >
       <View className="h-full items-center justify-center">
-        <Animated.View
+        <FinishedText visible={isFinished} fadeDuration={FadeDuration} />
+        <FadedView
+          visible={!isFinished}
+          fadeDuration={FadeDuration}
           style={{
-            opacity: Animated.subtract(1, fadeAnim),
-            position: "absolute",
-          }}
-        >
-          <Text
-            className="text-white"
-            style={{
-              fontFamily: FontInter.semiBold,
-              fontSize: Dimensions.get("screen").width * 0.1,
-            }}
-          >
-            FINISHED
-          </Text>
-        </Animated.View>
-        <Animated.View
-          style={{
-            opacity: fadeAnim,
             width: "100%",
             alignItems: "center",
           }}
@@ -140,34 +115,16 @@ export default function TabataTimerScreen({
               </Text>
             </View>
           </View>
-        </Animated.View>
-
-        <View
-          style={{
-            position: "absolute",
-            bottom: insetsBottom,
-          }}
-        >
-          {((isActive && !isPaused) || isFinished) && (
-            <CustomButton
-              title="Reset"
-              onPress={handleReset}
-              style={{ marginBottom: isFinished ? 0 : insetsBottom / 2 }}
-            />
-          )}
-          {!isFinished &&
-            (!isActive && !isPaused ? (
-              <CustomButton
-                title="Start"
-                onPress={handleStart}
-                style={{ marginTop: Dimensions.get("screen").height / 8 }}
-              />
-            ) : isPaused ? (
-              <CustomButton title="Stop" onPress={handlePause} />
-            ) : (
-              <CustomButton title="Resume" onPress={handleResume} />
-            ))}
-        </View>
+        </FadedView>
+        <BottomButtons
+          isActive={isActive}
+          isPaused={isPaused}
+          isFinished={isFinished}
+          handleReset={handleReset}
+          handleStart={handleStart}
+          handlePause={handlePause}
+          handleResume={handleResume}
+        />
       </View>
     </ScreenWrapper>
   );
