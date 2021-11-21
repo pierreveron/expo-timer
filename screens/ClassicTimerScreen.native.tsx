@@ -54,7 +54,6 @@ export default function ClassicTimerScreen({
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState
   ) => {
-    console.log("start");
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -69,7 +68,6 @@ export default function ClassicTimerScreen({
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState
   ) => {
-    console.log("release");
     timeoutRef.current = setTimeout(() => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);

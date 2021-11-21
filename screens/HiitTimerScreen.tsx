@@ -55,7 +55,6 @@ export default function HiitTimerScreen({
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState
   ) => {
-    console.log("release");
     if (gestureState.dx == 0 && gestureState.dy == 0) onScreenTap();
   };
 

@@ -1,7 +1,5 @@
 import React from "react";
-import FadeDuration from "../constants/FadeDuration";
 import FontInter from "../constants/FontInter";
-import FadedView from "./FadedView";
 import { View, Text } from "./tailwind";
 import TimeText from "./TimeText";
 
@@ -19,7 +17,6 @@ export default function TimerWithRoundsLowerPart({
           className="text-white text-xl"
           style={{
             fontFamily: FontInter.semiBold,
-            // fontSize: Layout.window.width * 0.1,
           }}
         >
           Time remaining
@@ -31,7 +28,6 @@ export default function TimerWithRoundsLowerPart({
           className="text-white text-xl"
           style={{
             fontFamily: FontInter.semiBold,
-            // fontSize: Layout.window.width * 0.1,
           }}
         >
           Time

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { View } from "react-native";
 import HomeScreenButton from "../components/HomeScreenButton";
 import Colors from "../constants/Colors";

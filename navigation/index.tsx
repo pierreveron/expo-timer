@@ -77,7 +77,6 @@ function RootNavigator() {
           if (Platform.OS === "web") {
             return [];
           }
-          // return ["Stopwatch"];
           return [{ id: "Stopwatch.background" }, { id: "Stopwatch" }];
         }}
         options={options}

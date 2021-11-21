@@ -32,7 +32,6 @@ export default function BouncingText({
   });
 
   useEffect(() => {
-    console.log("Text animation started");
     offset.value = withRepeat(
       withTiming(8, {
         duration: duration,

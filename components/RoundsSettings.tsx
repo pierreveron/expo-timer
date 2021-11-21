@@ -41,7 +41,6 @@ export default function RoundsSettings({
               className="text-white text-xl"
               style={{
                 fontFamily: FontInter.semiBold,
-                // fontSize: Layout.window.width * 0.1,
               }}
             >
               Rounds
@@ -50,7 +49,6 @@ export default function RoundsSettings({
               className="text-white text-xl"
               style={{
                 fontFamily: FontInter.semiBold,
-                // fontSize: Layout.window.width * 0.1,
               }}
             >
               {numberRounds}
@@ -73,7 +71,6 @@ export default function RoundsSettings({
               className="text-white text-xl"
               style={{
                 fontFamily: FontInter.semiBold,
-                // fontSize: Layout.window.width * 0.1,
               }}
             >
               Work period
@@ -97,7 +94,6 @@ export default function RoundsSettings({
               className="text-white text-xl"
               style={{
                 fontFamily: FontInter.semiBold,
-                // fontSize: Layout.window.width * 0.1,
               }}
             >
               Rest period

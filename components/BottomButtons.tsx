@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import CustomButton from "./Button";
+import CustomButton from "./CustomButton";
 import FadedView from "./FadedView";
 
 export default function BottomButtons({

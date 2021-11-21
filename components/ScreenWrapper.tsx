@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import { Animated, ColorValue } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

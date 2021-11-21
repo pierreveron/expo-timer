@@ -33,12 +33,10 @@ export default function ClassicTimerScreen({
   const handleScroll = (e: WheelEvent) => {
     if (!throttle) {
       const sign = Math.sign(e.deltaY);
-      // console.log(e.deltaY);
       const eps =
         Math.abs(Math.floor(e.deltaY)) < 10 ? sign : Math.floor(e.deltaY);
       if (sign == 1) upTimer(eps);
       if (sign == -1) downTimer(eps);
-      // console.log("wheeling");
       /* Add: Start a "throttle" timer that prevents next wheel processing
       until timer completed */
       throttle = setTimeout(() => {
