@@ -1,24 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
-  Animated,
   PanResponder,
   GestureResponderEvent,
   PanResponderGestureState,
 } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BouncingText from "../components/BoucingText";
-import CustomButton from "../components/Button";
-import Header from "../components/Header";
 import ScreenWrapper from "../components/ScreenWrapper";
 import { View, Text } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
 import FontInter from "../constants/FontInter";
-import useFade from "../hooks/useFade";
 import useHiitTimer from "../hooks/useHiitTimer";
-import useUpdateEffect from "../hooks/useUpdateEffect";
 import { RootStackScreenProps } from "../types";
 import { formatTime } from "../utils/time";
 import { Slider } from "@miblanchard/react-native-slider";
@@ -96,24 +89,53 @@ export default function HiitTimerScreen({
           }}
           fadeDuration={FadeDuration}
         >
-          <Text
-            className="text-white"
-            style={{
-              fontFamily: FontInter.semiBold,
-              fontSize: Dimensions.get("screen").width * 0.1,
-            }}
-          >
-            {isRest ? "REST" : "WORK"}
-          </Text>
-          <Text
-            className="text-white text-xl"
-            style={{
-              fontFamily: FontInter.semiBold,
-            }}
-          >
-            Round {round}/{numberRounds}
-          </Text>
-          <TimeText>
+          <View className="items-center">
+            <FadedView
+              visible={!isRest}
+              style={{
+                position: "absolute",
+                bottom: Dimensions.get("screen").width * 0.1,
+              }}
+              fadeDuration={FadeDuration / 2}
+            >
+              <Text
+                className="text-white"
+                style={{
+                  fontFamily: FontInter.semiBold,
+                  fontSize: Dimensions.get("screen").width * 0.1,
+                }}
+              >
+                WORK
+              </Text>
+            </FadedView>
+            <FadedView
+              visible={isRest}
+              style={{
+                position: "absolute",
+                bottom: Dimensions.get("screen").width * 0.1,
+              }}
+              fadeDuration={FadeDuration / 2}
+            >
+              <Text
+                className="text-white"
+                style={{
+                  fontFamily: FontInter.semiBold,
+                  fontSize: Dimensions.get("screen").width * 0.1,
+                }}
+              >
+                REST
+              </Text>
+            </FadedView>
+            <Text
+              className="text-white text-xl"
+              style={{
+                fontFamily: FontInter.semiBold,
+              }}
+            >
+              Round {round}/{numberRounds}
+            </Text>
+          </View>
+          <TimeText big>
             {timer == 0
               ? 0
               : isRest
@@ -121,7 +143,7 @@ export default function HiitTimerScreen({
               : workTime - ((totalTime - timer) % roundTime)}
           </TimeText>
           <View className="w-full px-8">
-            <View className="flex-row justify-between">
+            <View className="flex-row justify-between items-center">
               <Text
                 className="text-white text-xl"
                 style={{
@@ -131,17 +153,9 @@ export default function HiitTimerScreen({
               >
                 Time remaining
               </Text>
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                {formatTime(timer)}
-              </Text>
+              <TimeText>{timer}</TimeText>
             </View>
-            <View className="flex-row justify-between">
+            <View className="flex-row justify-between items-center">
               <Text
                 className="text-white text-xl"
                 style={{
@@ -151,15 +165,7 @@ export default function HiitTimerScreen({
               >
                 Time
               </Text>
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                {formatTime(totalTime - timer)}
-              </Text>
+              <TimeText>{totalTime - timer}</TimeText>
             </View>
           </View>
         </FadedView>
