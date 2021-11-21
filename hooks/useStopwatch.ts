@@ -44,10 +44,9 @@ export default function useStopwatch() {
         if (countRef.current) clearInterval(countRef.current)
     }
 
-
     useEffect(() => {
+        // Prevents from memory leaks by stopping the 1 second interval
         return () => {
-            console.log("Stopwatch dismounted");
             handleClear();
         };
     }, []);

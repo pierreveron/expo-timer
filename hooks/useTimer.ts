@@ -48,7 +48,7 @@ export default function useTimer(initialState: number) {
     }, [timer]);
 
     useEffect(() => {
-        //Prevents from memory leaks by stopping the 1 second interval
+        // Prevents from memory leaks by stopping the 1 second interval
         return () => {
             handleClear();
         };
