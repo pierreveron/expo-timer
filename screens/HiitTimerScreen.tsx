@@ -1,24 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Dimensions,
   PanResponder,
   GestureResponderEvent,
   PanResponderGestureState,
 } from "react-native";
 import BouncingText from "../components/BoucingText";
 import ScreenWrapper from "../components/ScreenWrapper";
-import { View, Text } from "../components/tailwind";
-import TimeText from "../components/TimeText";
+import { View } from "../components/tailwind";
 import Colors from "../constants/Colors";
-import FontInter from "../constants/FontInter";
 import useHiitTimer from "../hooks/useHiitTimer";
 import { RootStackScreenProps } from "../types";
-import { formatTime } from "../utils/time";
-import { Slider } from "@miblanchard/react-native-slider";
-import FadedView from "../components/FadedView";
 import FinishedText from "../components/FinishedText";
 import BottomButtons from "../components/BottomButtons";
 import FadeDuration from "../constants/FadeDuration";
+import TimerWithRounds from "../components/TimerWithRounds";
+import RoundsSettings from "../components/RoundsSettings";
 
 export default function HiitTimerScreen({
   navigation,
@@ -33,13 +29,13 @@ export default function HiitTimerScreen({
     isPaused,
     round,
     numberRounds,
-    setNumberRounds,
     isRest,
     isFinished,
     handleStart,
     handlePause,
     handleResume,
     handleReset,
+    setNumberRounds,
     setRestTime,
     setWorkTime,
   } = useHiitTimer();
@@ -80,206 +76,27 @@ export default function HiitTimerScreen({
         className="h-full items-center justify-center"
         {...panResponder.panHandlers}
       >
-        {/* WorkoutView */}
-        <FadedView
+        <TimerWithRounds
+          timer={timer}
+          totalTime={totalTime}
           visible={!isFinished && !isSettingsShown}
-          style={{
-            width: "100%",
-            alignItems: "center",
-          }}
-          fadeDuration={FadeDuration}
-        >
-          <View className="items-center">
-            <FadedView
-              visible={!isRest}
-              style={{
-                position: "absolute",
-                bottom: Dimensions.get("screen").width * 0.1,
-              }}
-              fadeDuration={FadeDuration / 2}
-            >
-              <Text
-                className="text-white"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                WORK
-              </Text>
-            </FadedView>
-            <FadedView
-              visible={isRest}
-              style={{
-                position: "absolute",
-                bottom: Dimensions.get("screen").width * 0.1,
-              }}
-              fadeDuration={FadeDuration / 2}
-            >
-              <Text
-                className="text-white"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                REST
-              </Text>
-            </FadedView>
-            <Text
-              className="text-white text-xl"
-              style={{
-                fontFamily: FontInter.semiBold,
-              }}
-            >
-              Round {round}/{numberRounds}
-            </Text>
-          </View>
-          <TimeText big>
-            {timer == 0
-              ? 0
-              : isRest
-              ? restTime - ((totalTime - timer) % restTime)
-              : workTime - ((totalTime - timer) % roundTime)}
-          </TimeText>
-          <View className="w-full px-8">
-            <View className="flex-row justify-between items-center">
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                Time remaining
-              </Text>
-              <TimeText>{timer}</TimeText>
-            </View>
-            <View className="flex-row justify-between items-center">
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                Time
-              </Text>
-              <TimeText>{totalTime - timer}</TimeText>
-            </View>
-          </View>
-        </FadedView>
+          isRest={isRest}
+          round={round}
+          numberRounds={numberRounds}
+          restTime={restTime}
+          workTime={workTime}
+          roundTime={roundTime}
+        />
         <FinishedText visible={isFinished} fadeDuration={FadeDuration} />
-        {/* SettingsView */}
-        <FadedView
+        <RoundsSettings
           visible={!isFinished && isSettingsShown}
-          style={{
-            width: "100%",
-            alignItems: "center",
-            position: "absolute",
-          }}
-          fadeDuration={FadeDuration}
-          initialValue={0}
-        >
-          <View className="w-full px-8">
-            <View>
-              <View className="flex-row justify-between">
-                <Text
-                  className="text-white text-xl"
-                  style={{
-                    fontFamily: FontInter.semiBold,
-                    // fontSize: Dimensions.get("screen").width * 0.1,
-                  }}
-                >
-                  Rounds
-                </Text>
-                <Text
-                  className="text-white text-xl"
-                  style={{
-                    fontFamily: FontInter.semiBold,
-                    // fontSize: Dimensions.get("screen").width * 0.1,
-                  }}
-                >
-                  {numberRounds}
-                </Text>
-              </View>
-              <Slider
-                value={numberRounds}
-                onValueChange={(value) => {
-                  if (typeof value === "number") setNumberRounds(value);
-                  else setNumberRounds(value[0]);
-                }}
-                maximumValue={60}
-                minimumValue={1}
-                step={1}
-              />
-            </View>
-            <View>
-              <View className="flex-row justify-between">
-                <Text
-                  className="text-white text-xl"
-                  style={{
-                    fontFamily: FontInter.semiBold,
-                    // fontSize: Dimensions.get("screen").width * 0.1,
-                  }}
-                >
-                  Work period
-                </Text>
-                <Text
-                  className="text-white text-xl"
-                  style={{
-                    fontFamily: FontInter.semiBold,
-                    // fontSize: Dimensions.get("screen").width * 0.1,
-                  }}
-                >
-                  {formatTime(workTime)}
-                </Text>
-              </View>
-              <Slider
-                value={workTime}
-                onValueChange={(value) => {
-                  if (typeof value === "number") setWorkTime(value);
-                  else setWorkTime(value[0]);
-                }}
-                maximumValue={120}
-                minimumValue={10}
-                step={1}
-              />
-            </View>
-            <View>
-              <View className="flex-row justify-between">
-                <Text
-                  className="text-white text-xl"
-                  style={{
-                    fontFamily: FontInter.semiBold,
-                    // fontSize: Dimensions.get("screen").width * 0.1,
-                  }}
-                >
-                  Rest period
-                </Text>
-                <Text
-                  className="text-white text-xl"
-                  style={{
-                    fontFamily: FontInter.semiBold,
-                    // fontSize: Dimensions.get("screen").width * 0.1,
-                  }}
-                >
-                  {formatTime(restTime)}
-                </Text>
-              </View>
-              <Slider
-                value={restTime}
-                onValueChange={(value) => {
-                  if (typeof value === "number") setRestTime(value);
-                  else setRestTime(value[0]);
-                }}
-                maximumValue={120}
-                minimumValue={0}
-                step={1}
-              />
-            </View>
-          </View>
-        </FadedView>
+          numberRounds={numberRounds}
+          workTime={workTime}
+          restTime={restTime}
+          setNumberRounds={setNumberRounds}
+          setRestTime={setRestTime}
+          setWorkTime={setWorkTime}
+        />
         <BouncingText
           visible={!isActive && !isPaused}
           fadeDuration={FadeDuration}

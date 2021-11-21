@@ -2,16 +2,12 @@ import React from "react";
 import ScreenWrapper from "../components/ScreenWrapper";
 import Colors from "../constants/Colors";
 import { RootStackScreenProps } from "../types";
-import { Dimensions } from "react-native";
-import { Text, View } from "../components/tailwind";
-import TimeText from "../components/TimeText";
+import { View } from "../components/tailwind";
 import useTabataTimer from "../hooks/useTabataTimer";
-import FontInter from "../constants/FontInter";
-import { formatTime } from "../utils/time";
-import FadedView from "../components/FadedView";
-import BottomButtons from "../components/BottomButtons";
 import FinishedText from "../components/FinishedText";
 import FadeDuration from "../constants/FadeDuration";
+import TimerWithRounds from "../components/TimerWithRounds";
+import BottomButtons from "../components/BottomButtons";
 
 export default function TabataTimerScreen({
   navigation,
@@ -21,6 +17,7 @@ export default function TabataTimerScreen({
     workTime,
     roundTime,
     restTime,
+    numberRounds,
     timer,
     isActive,
     isPaused,
@@ -41,65 +38,17 @@ export default function TabataTimerScreen({
     >
       <View className="h-full items-center justify-center">
         <FinishedText visible={isFinished} fadeDuration={FadeDuration} />
-        <FadedView
+        <TimerWithRounds
+          timer={timer}
+          totalTime={totalTime}
           visible={!isFinished}
-          fadeDuration={FadeDuration}
-          style={{
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Text
-            className="text-white"
-            style={{
-              fontFamily: FontInter.semiBold,
-              fontSize: Dimensions.get("screen").width * 0.1,
-            }}
-          >
-            {isRest ? "REST" : "WORK"}
-          </Text>
-          <Text
-            className="text-white text-xl"
-            style={{
-              fontFamily: FontInter.semiBold,
-            }}
-          >
-            Round {round}/8
-          </Text>
-          <TimeText big>
-            {timer == 0
-              ? 0
-              : isRest
-              ? restTime - ((totalTime - timer) % restTime)
-              : workTime - ((totalTime - timer) % roundTime)}
-          </TimeText>
-          <View className="w-full px-8">
-            <View className="flex-row justify-between items-center">
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                Time remaining
-              </Text>
-              <TimeText>{timer}</TimeText>
-            </View>
-            <View className="flex-row justify-between items-center">
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                Time
-              </Text>
-              <TimeText>{totalTime - timer}</TimeText>
-            </View>
-          </View>
-        </FadedView>
+          isRest={isRest}
+          round={round}
+          numberRounds={numberRounds}
+          restTime={restTime}
+          workTime={workTime}
+          roundTime={roundTime}
+        />
         <BottomButtons
           isActive={isActive}
           isPaused={isPaused}

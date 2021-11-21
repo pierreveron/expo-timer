@@ -5,6 +5,7 @@ export default function useTabataTimer() {
     const totalTime = 30;
     const restTime = 10;
     const workTime = 20;
+    const numberRounds = 8;
     const roundTime = restTime + workTime;
     const { timer, isActive, isPaused, isFinished, handleStart, handlePause, handleResume, handleReset: superReset, handleClear, handleFinish } = useTimer(totalTime)
     const [round, setRound] = useState(1)
@@ -35,7 +36,7 @@ export default function useTabataTimer() {
     }, [timer]);
 
     return {
-        totalTime, workTime, roundTime, restTime,
+        totalTime, workTime, roundTime, restTime, numberRounds,
         timer, round,
         isActive, isPaused, isRest, isFinished,
         handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
