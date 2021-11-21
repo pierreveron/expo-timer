@@ -17,10 +17,11 @@ export default function TimeText({
 
   const textViews = [];
 
-  for (const c of timerString) {
+  for (var x = 0, c = ""; (c = timerString.charAt(x)); x++) {
     if (c !== " ")
       textViews.push(
         <Text
+          key={x}
           className="text-white text-center"
           style={{
             fontFamily: FontInter.semiBold,
