@@ -66,7 +66,7 @@ export default function TabataTimerScreen({
           >
             Round {round}/8
           </Text>
-          <TimeText>
+          <TimeText big>
             {timer == 0
               ? 0
               : isRest
@@ -74,7 +74,7 @@ export default function TabataTimerScreen({
               : workTime - ((totalTime - timer) % roundTime)}
           </TimeText>
           <View className="w-full px-8">
-            <View className="flex-row justify-between">
+            <View className="flex-row justify-between items-center">
               <Text
                 className="text-white text-xl"
                 style={{
@@ -84,17 +84,9 @@ export default function TabataTimerScreen({
               >
                 Time remaining
               </Text>
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                {formatTime(timer)}
-              </Text>
+              <TimeText>{timer}</TimeText>
             </View>
-            <View className="flex-row justify-between">
+            <View className="flex-row justify-between items-center">
               <Text
                 className="text-white text-xl"
                 style={{
@@ -104,15 +96,7 @@ export default function TabataTimerScreen({
               >
                 Time
               </Text>
-              <Text
-                className="text-white text-xl"
-                style={{
-                  fontFamily: FontInter.semiBold,
-                  // fontSize: Dimensions.get("screen").width * 0.1,
-                }}
-              >
-                {formatTime(totalTime - timer)}
-              </Text>
+              <TimeText>{totalTime - timer}</TimeText>
             </View>
           </View>
         </FadedView>

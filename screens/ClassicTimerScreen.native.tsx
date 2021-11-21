@@ -140,7 +140,7 @@ export default function ClassicTimerScreen({
       >
         <FinishedText visible={isFinished} fadeDuration={FadeDuration} />
         <FadedView visible={!isFinished} fadeDuration={FadeDuration}>
-          <TimeText>{timer}</TimeText>
+          <TimeText big>{timer}</TimeText>
         </FadedView>
         <BouncingText
           visible={!isActive && !isPaused}

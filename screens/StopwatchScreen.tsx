@@ -27,7 +27,7 @@ export default function StopwatchScreen({
       backgroundColor={Colors.stopwatch}
     >
       <View className="flex-1 items-center justify-center">
-        <TimeText>{timer}</TimeText>
+        <TimeText big>{timer}</TimeText>
         <BottomButtons
           isActive={isActive}
           isPaused={isPaused}
