@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View } from "../components/tailwind";
 import { RootStackScreenProps } from "../types";
 import CustomButton from "../components/Button";
@@ -7,6 +7,7 @@ import Colors from "../constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useStopwatch from "../hooks/useStopwatch";
 import TimeText from "../components/TimeText";
+import FadedView from "../components/FadedView";
 
 export default function StopwatchScreen({
   navigation,
@@ -19,15 +20,7 @@ export default function StopwatchScreen({
     handlePause,
     handleResume,
     handleReset,
-    handleCancel,
   } = useStopwatch();
-
-  useEffect(() => {
-    return () => {
-      console.log("Stopwatch dismounted");
-      handleCancel();
-    };
-  }, []);
 
   const { bottom: insetsBottom } = useSafeAreaInsets();
   return (
@@ -44,16 +37,18 @@ export default function StopwatchScreen({
             bottom: insetsBottom,
           }}
         >
-          {isActive && !isPaused && (
-            <CustomButton
-              title="Reset"
-              onPress={handleReset}
-              style={{ marginBottom: insetsBottom / 2 }}
-            />
-          )}
-          {!isActive && !isPaused ? (
+          <FadedView
+            visible={isActive && isPaused}
+            fadeDuration={400}
+            fadeOutDuration={0}
+            initialValue={0}
+            style={{ marginBottom: insetsBottom / 2 }}
+          >
+            <CustomButton title="Reset" onPress={handleReset} />
+          </FadedView>
+          {!isActive ? (
             <CustomButton title="Start" onPress={handleStart} />
-          ) : isPaused ? (
+          ) : !isPaused ? (
             <CustomButton title="Stop" onPress={handlePause} />
           ) : (
             <CustomButton title="Resume" onPress={handleResume} />
