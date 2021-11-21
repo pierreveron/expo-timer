@@ -1,13 +1,14 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import useTimer from './useTimer';
 
 export default function useTabataTimer() {
-    const totalTime = 30;
     const restTime = 10;
     const workTime = 20;
     const numberRounds = 8;
     const roundTime = restTime + workTime;
-    const { timer, isActive, isPaused, isFinished, handleStart, handlePause, handleResume, handleReset: superReset, handleClear, handleFinish } = useTimer(totalTime)
+    const totalTime = roundTime * numberRounds;
+    const { timer, isActive, isPaused, isFinished,
+        handleStart, handlePause, handleResume, handleReset: superReset } = useTimer(totalTime)
     const [round, setRound] = useState(1)
     const [isRest, setIsRest] = useState(false)
 
@@ -15,7 +16,6 @@ export default function useTabataTimer() {
         superReset();
         setRound(1)
         setIsRest(false);
-
     }
 
     const handleNewRound = () => {
@@ -25,10 +25,8 @@ export default function useTabataTimer() {
 
     useEffect(() => {
         if (isActive && timer != 0) {
-            if ((totalTime - timer) == workTime * round + restTime * (round - 1)) {
+            if ((totalTime - timer) == workTime * round + restTime * (round - 1))
                 setIsRest(true);
-                console.log("rest is true")
-            }
 
             if (timer % roundTime == 0)
                 handleNewRound();
@@ -36,9 +34,9 @@ export default function useTabataTimer() {
     }, [timer]);
 
     return {
-        totalTime, workTime, roundTime, restTime, numberRounds,
-        timer, round,
+        totalTime, workTime, roundTime, restTime,
+        timer, round, numberRounds,
         isActive, isPaused, isRest, isFinished,
-        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
+        handleStart, handlePause, handleResume, handleReset
     }
 }

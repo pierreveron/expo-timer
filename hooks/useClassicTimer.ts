@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
 import useTimer from './useTimer';
 
 export default function useClassicTimer(initialState: number) {
     const {
         timer, setTimer,
         isActive, isPaused, isFinished,
-        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
+        handleStart, handlePause, handleResume, handleReset, handleFinish
     } = useTimer(initialState)
 
     const upTimer = (eps = 1) => {
@@ -44,7 +43,7 @@ export default function useClassicTimer(initialState: number) {
     return {
         timer,
         isActive, isPaused, isFinished,
-        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish,
+        handleStart, handlePause, handleResume, handleReset, handleFinish,
         upTimer, downTimer,
     }
 }

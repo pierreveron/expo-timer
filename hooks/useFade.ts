@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { Animated } from "react-native";
 
-
 export default function useFade(initialValue: number, fadeDuration: number, fadeOutDuration?: number) {
     const fadeAnim = useRef(new Animated.Value(initialValue)).current;
 

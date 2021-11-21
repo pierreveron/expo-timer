@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 
+// Load any resources or data that we need prior to rendering the app
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   SplashScreen.preventAutoHideAsync();
@@ -12,7 +13,6 @@ export default function useCachedResources() {
     Inter_600SemiBold,
   });
 
-  // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
     if (fontsLoaded) {
       setLoadingComplete(true)

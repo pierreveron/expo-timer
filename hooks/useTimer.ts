@@ -5,14 +5,14 @@ export default function useTimer(initialState: number) {
     const [isActive, setIsActive] = useState(false)
     const [isPaused, setIsPaused] = useState(false)
     const [isFinished, setIsFinished] = useState(false)
-    const countRef = useRef<NodeJS.Timer | null>(null)
+    const timerRef = useRef<NodeJS.Timer | null>(null)
     const timerInterval = () => setInterval(() => {
         setTimer((timer) => timer - 1 > 0 ? timer - 1 : 0)
     }, 1000)
 
     const handleStart = () => {
         setIsActive(true)
-        countRef.current = timerInterval()
+        timerRef.current = timerInterval()
     }
 
     const handlePause = () => {
@@ -22,7 +22,7 @@ export default function useTimer(initialState: number) {
 
     const handleResume = () => {
         setIsPaused(false)
-        countRef.current = timerInterval()
+        timerRef.current = timerInterval()
     }
 
     const handleReset = () => {
@@ -39,7 +39,7 @@ export default function useTimer(initialState: number) {
     }
 
     const handleClear = () => {
-        if (countRef.current) clearInterval(countRef.current)
+        if (timerRef.current) clearInterval(timerRef.current)
     }
 
     useEffect(() => {
@@ -48,9 +48,8 @@ export default function useTimer(initialState: number) {
     }, [timer]);
 
     useEffect(() => {
+        //Prevents from memory leaks by stopping the 1 second interval
         return () => {
-            console.log("Timer dismounted");
-            //Prevents from memory leaks by stopping the 1 second interval
             handleClear();
         };
     }, []);
@@ -58,6 +57,6 @@ export default function useTimer(initialState: number) {
     return {
         timer, setTimer,
         isActive, isPaused, isFinished,
-        handleStart, handlePause, handleResume, handleReset, handleClear, handleFinish
+        handleStart, handlePause, handleResume, handleReset, handleFinish
     }
 }
