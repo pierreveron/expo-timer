@@ -1,10 +1,10 @@
 import React from "react";
 import FadeDuration from "../constants/FadeDuration";
 import FontInter from "../constants/FontInter";
-import FadedView from "./FadedView";
-import { View, Text } from "./tailwind";
+import { View, Text, FadedView } from "./tailwind";
 import { Slider } from "@miblanchard/react-native-slider";
 import TimeText from "./TimeText";
+import { useWindowDimensions } from "react-native";
 
 export default function RoundsSettings({
   visible,
@@ -23,18 +23,20 @@ export default function RoundsSettings({
   setRestTime: React.Dispatch<React.SetStateAction<number>>;
   setWorkTime: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const { width: windowWidth } = useWindowDimensions();
   return (
     <FadedView
       visible={visible}
+      className="max-w-xl"
       style={{
-        width: "100%",
+        width: windowWidth * 0.8,
         alignItems: "center",
         position: "absolute",
       }}
       fadeDuration={FadeDuration}
       initialValue={0}
     >
-      <View className="w-full px-8">
+      <View className="w-full">
         <View>
           <View className="flex-row justify-between">
             <Text
