@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text } from "./tailwind";
 import FontInter from "../constants/FontInter";
-import Layout from "../constants/Layout";
 import { formatTime } from "../utils/time";
+import { useWindowDimensions } from "react-native";
 
 export default function TimeText({
   children: timer,
@@ -11,7 +11,8 @@ export default function TimeText({
   children: number;
   big?: boolean;
 }) {
-  const fontSize = big ? Layout.window.width * 0.2 : 20;
+  const { width: windowWidth } = useWindowDimensions();
+  const fontSize = big ? windowWidth * 0.2 : 20;
   const width = fontSize * 0.65;
   const timerString = formatTime(timer, false);
 

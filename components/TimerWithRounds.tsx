@@ -1,6 +1,7 @@
 import React from "react";
+import { useWindowDimensions } from "react-native";
 import FadeDuration from "../constants/FadeDuration";
-import FadedView from "./FadedView";
+import { FadedView } from "./tailwind";
 import TimerWithRoundsLowerPart from "./TimerWithRoundsLowerPart";
 import TimerWithRoundsUpperPart from "./TimerWithRoundsUpperPart";
 import TimeText from "./TimeText";
@@ -26,12 +27,14 @@ export default function TimerWithRounds({
   workTime: number;
   roundTime: number;
 }) {
+  const { width: windowWidth } = useWindowDimensions();
   return (
     <FadedView
       visible={visible}
       fadeDuration={FadeDuration}
+      className="max-w-xl"
       style={{
-        width: "100%",
+        width: windowWidth * 0.8,
         alignItems: "center",
       }}
     >

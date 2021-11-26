@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CustomButton from "./CustomButton";
 import FadedView from "./FadedView";
@@ -21,7 +21,7 @@ export default function BottomButtons({
   handlePause: () => void;
   handleResume: () => void;
 }) {
-  const { bottom: insetsBottom } = useSafeAreaInsets();
+  const insetsBottom = Platform.OS === "ios" || Platform.OS === "android" ? useSafeAreaInsets().bottom : 20;
   return (
     <View
       style={{

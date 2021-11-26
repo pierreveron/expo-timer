@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, useWindowDimensions, ViewStyle } from "react-native";
 import FontInter from "../constants/FontInter";
-import Layout from "../constants/Layout";
 import { Text, TouchableOpacity } from "./tailwind";
 
 export default function CustomButton({
@@ -13,10 +12,11 @@ export default function CustomButton({
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
 }) {
+  const { width: windowWidth } = useWindowDimensions();
   return (
     <TouchableOpacity
-      className="bg-white rounded-xl items-center py-2 max-w-lg"
-      style={[{ width: Layout.window.width * 0.8 }, style]}
+      className="bg-white rounded-xl items-center py-2 max-w-xl"
+      style={[{ width: windowWidth * 0.8 }, style]}
       onPress={onPress}
     >
       <Text

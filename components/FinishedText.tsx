@@ -1,6 +1,6 @@
 import React from "react";
+import { useWindowDimensions } from "react-native";
 import FontInter from "../constants/FontInter";
-import Layout from "../constants/Layout";
 import FadedView from "./FadedView";
 import { Text } from "./tailwind";
 
@@ -11,6 +11,7 @@ export default function FinishedText({
   visible: boolean;
   fadeDuration: number;
 }) {
+  const { width: windowWidth } = useWindowDimensions();
   return (
     <FadedView
       visible={visible}
@@ -24,7 +25,7 @@ export default function FinishedText({
         className="text-white"
         style={{
           fontFamily: FontInter.semiBold,
-          fontSize: Layout.window.width * 0.1,
+          fontSize: windowWidth * 0.1,
         }}
       >
         FINISHED

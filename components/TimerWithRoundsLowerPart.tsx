@@ -11,7 +11,7 @@ export default function TimerWithRoundsLowerPart({
   totalTime: number;
 }) {
   return (
-    <View className="w-full px-8">
+    <View className="w-full">
       <View className="flex-row justify-between items-center">
         <Text
           className="text-white text-xl"

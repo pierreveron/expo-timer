@@ -3,6 +3,7 @@ import {
   GestureResponderEvent,
   PanResponder,
   PanResponderGestureState,
+  useWindowDimensions,
 } from "react-native";
 import BottomButtons from "../components/BottomButtons";
 import BouncingText from "../components/BoucingText";
@@ -13,7 +14,6 @@ import { View } from "../components/tailwind";
 import TimeText from "../components/TimeText";
 import Colors from "../constants/Colors";
 import FadeDuration from "../constants/FadeDuration";
-import Layout from "../constants/Layout";
 import useClassicTimer from "../hooks/useClassicTimer";
 import { RootStackScreenProps } from "../types";
 
@@ -37,7 +37,8 @@ export default function ClassicTimerScreen({
   const intervalRef = useRef<NodeJS.Timer | null>(null);
   const timeoutRef = useRef<NodeJS.Timer | null>(null);
   const oldDy = useRef(0);
-  const halfScreenWidth = Layout.window.width / 2;
+  const { width: windowWidth } = useWindowDimensions();
+  const halfScreenWidth = windowWidth / 2;
 
   useEffect(() => {
     isActiveRef.current = isActive;

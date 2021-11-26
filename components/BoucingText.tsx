@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useWindowDimensions } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -8,7 +9,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import FontInter from "../constants/FontInter";
-import Layout from "../constants/Layout";
 import FadedView from "./FadedView";
 import { Text } from "./tailwind";
 
@@ -44,13 +44,15 @@ export default function BouncingText({
       cancelAnimation(offset);
     };
   }, []);
+
+  const { height: windowHeight } = useWindowDimensions();
   return (
     <FadedView
       visible={visible}
       fadeDuration={fadeDuration}
       style={{
         position: "absolute",
-        bottom: Layout.window.height / 8,
+        bottom: windowHeight / 8,
       }}
     >
       <Animated.View style={[style]}>
