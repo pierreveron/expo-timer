@@ -1,0 +1,43 @@
+{
+  "files": {
+    "app.js": "/expo-timer/static/js/app.4b74afcd.chunk.js",
+    "app.js.map": "/expo-timer/static/js/app.4b74afcd.chunk.js.map",
+    "runtime~app.js": "/expo-timer/static/js/runtime~app.ce2ad055.js",
+    "runtime~app.js.map": "/expo-timer/static/js/runtime~app.ce2ad055.js.map",
+    "static/js/2.20f6ed81.chunk.js": "/expo-timer/static/js/2.20f6ed81.chunk.js",
+    "static/js/2.20f6ed81.chunk.js.map": "/expo-timer/static/js/2.20f6ed81.chunk.js.map",
+    "fonts/AntDesign.ttf": "/expo-timer/./fonts/AntDesign.ttf",
+    "fonts/Entypo.ttf": "/expo-timer/./fonts/Entypo.ttf",
+    "fonts/Feather.ttf": "/expo-timer/./fonts/Feather.ttf",
+    "fonts/FontAwesome.ttf": "/expo-timer/./fonts/FontAwesome.ttf",
+    "fonts/FontAwesome5_Brands.ttf": "/expo-timer/./fonts/FontAwesome5_Brands.ttf",
+    "fonts/FontAwesome5_Solid.ttf": "/expo-timer/./fonts/FontAwesome5_Solid.ttf",
+    "fonts/Fontisto.ttf": "/expo-timer/./fonts/Fontisto.ttf",
+    "fonts/Foundation.ttf": "/expo-timer/./fonts/Foundation.ttf",
+    "fonts/Inter_100Thin.ttf": "/expo-timer/./fonts/Inter_100Thin.ttf",
+    "fonts/Inter_200ExtraLight.ttf": "/expo-timer/./fonts/Inter_200ExtraLight.ttf",
+    "fonts/Inter_300Light.ttf": "/expo-timer/./fonts/Inter_300Light.ttf",
+    "fonts/Inter_400Regular.ttf": "/expo-timer/./fonts/Inter_400Regular.ttf",
+    "fonts/Inter_500Medium.ttf": "/expo-timer/./fonts/Inter_500Medium.ttf",
+    "fonts/Inter_600SemiBold.ttf": "/expo-timer/./fonts/Inter_600SemiBold.ttf",
+    "fonts/Inter_700Bold.ttf": "/expo-timer/./fonts/Inter_700Bold.ttf",
+    "fonts/Inter_800ExtraBold.ttf": "/expo-timer/./fonts/Inter_800ExtraBold.ttf",
+    "fonts/Inter_900Black.ttf": "/expo-timer/./fonts/Inter_900Black.ttf",
+    "fonts/Ionicons.ttf": "/expo-timer/./fonts/Ionicons.ttf",
+    "fonts/MaterialCommunityIcons.ttf": "/expo-timer/./fonts/MaterialCommunityIcons.ttf",
+    "fonts/MaterialIcons.ttf": "/expo-timer/./fonts/MaterialIcons.ttf",
+    "fonts/SimpleLineIcons.ttf": "/expo-timer/./fonts/SimpleLineIcons.ttf",
+    "favicon-16.png": "/expo-timer/favicon-16.png",
+    "favicon-32.png": "/expo-timer/favicon-32.png",
+    "favicon.ico": "/expo-timer/favicon.ico",
+    "index.html": "/expo-timer/index.html",
+    "manifest.json": "/expo-timer/manifest.json",
+    "serve.json": "/expo-timer/serve.json",
+    "static/js/2.20f6ed81.chunk.js.LICENSE.txt": "/expo-timer/static/js/2.20f6ed81.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.ce2ad055.js",
+    "static/js/2.20f6ed81.chunk.js",
+    "static/js/app.4b74afcd.chunk.js"
+  ]
+}
